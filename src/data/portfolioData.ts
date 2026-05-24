@@ -67,7 +67,7 @@ export const hero = {
   summary:
     'Electronics and Communication Engineering undergraduate with strong interest in VLSI Design, Functional Verification, RTL Design, FPGA systems, and Embedded Systems. Hands-on experience in Verilog/SystemVerilog-based digital design, STM32 and ARM-based embedded systems, Cadence Virtuoso CMOS design, and real-time hardware interfacing. Passionate about building efficient digital systems, embedded firmware, and hardware-software integrated solutions.',
   resumeLink:
-    '',
+    'https://aseblr-my.sharepoint.com/:b:/g/personal/bl_en_u4ece23226_bl_students_amrita_edu/IQCQgrUYPCElRpYDTUk4jggvAa2Ozacmgjh_8cO9_BM9wAY?e=4p0dSg',
 }
 
 /* ---------- Social Links ---------- */

@@ -1,6 +1,7 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { scrollToOffset, getScrollElement } from '../utils/scrollStore'
+import { hero } from '../data/portfolioData'
 
 /**
  * Navbar — A minimal, fixed-position glassmorphic navigation bar.
@@ -15,13 +16,13 @@ import { scrollToOffset, getScrollElement } from '../utils/scrollStore'
 
 const NAV_ITEMS = [
   { label: 'Home', offset: 0 },
-  { label: 'Summary', offset: 0.125 },
-  { label: 'Education', offset: 0.25 },
-  { label: 'Skills', offset: 0.375 },
-  { label: 'Projects', offset: 0.5 },
-  { label: 'Publications', offset: 0.625 },
-  { label: 'Certificates', offset: 0.75 },
-  { label: 'Activities', offset: 0.875 },
+  { label: 'Summary', offset: 1 / 9 },
+  { label: 'Education', offset: 2 / 9 },
+  { label: 'Skills', offset: 3 / 9 },
+  { label: 'Projects', offset: 4 / 9 },
+  { label: 'Publications', offset: 6 / 9 },
+  { label: 'Certificates', offset: 7 / 9 },
+  { label: 'Activities', offset: 8 / 9 },
   { label: 'Contact', offset: 1.0 },
 ]
 
@@ -125,7 +126,7 @@ export default function Navbar() {
       {/* Resume button */}
       <a
         className="navbar__resume"
-        href=""
+        href={hero.resumeLink}
         target="_blank"
         rel="noopener noreferrer"
       >
@@ -161,7 +162,7 @@ export default function Navbar() {
         ))}
         <a
           className="navbar__mobile-resume"
-          href=""
+          href={hero.resumeLink}
           target="_blank"
           rel="noopener noreferrer"
         >

@@ -12,6 +12,7 @@ import {
   domainColors,
 } from '../data/portfolioData'
 import ProjectCard from './ProjectCard'
+import { scrollToOffset } from '../utils/scrollStore'
 
 /**
  * ContentOverlay — HTML sections rendered inside Drei's <Scroll html> container.
@@ -23,7 +24,7 @@ import ProjectCard from './ProjectCard'
  * A section at offset X is placed at top = X * 9 * 100vh.
  */
 
-const PAGES = 9
+const PAGES = 10
 
 /** Convert a normalized offset (0–1) to a CSS top value in vh */
 function sectionTop(offset: number): string {
@@ -65,7 +66,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 2: Professional Summary ===== */}
       <div
         className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(0.125) }}
+        style={{ top: sectionTop(1/9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Professional Summary</h2>
@@ -76,7 +77,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 3: Education ===== */}
       <div
         className="scroll-section scroll-section--right"
-        style={{ top: sectionTop(0.25) }}
+        style={{ top: sectionTop(2/9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Education</h2>
@@ -97,11 +98,13 @@ export default function ContentOverlay() {
 
       {/* ===== SECTION 4: Technical Skills ===== */}
       <div
-        className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(0.375) }}
+        className="scroll-section scroll-section--left scroll-section--tall"
+        style={{ top: sectionTop(3/9) }}
       >
         <div className="overlay-section">
-          <h2 className="overlay-section__heading">Technical Skills</h2>
+          <div className="overlay-section__header-sticky">
+            <h2 className="overlay-section__heading">Technical Skills</h2>
+          </div>
           <div className="overlay-skills">
             {technicalSkills.map((cat) => (
               <div key={cat.category} className="skill-group">
@@ -119,11 +122,13 @@ export default function ContentOverlay() {
 
       {/* ===== SECTION 5: Projects ===== */}
       <div
-        className="scroll-section scroll-section--right"
-        style={{ top: sectionTop(0.5) }}
+        className="scroll-section scroll-section--right scroll-section--tall"
+        style={{ top: sectionTop(4/9) }}
       >
         <div className="overlay-section">
-          <h2 className="overlay-section__heading">Technical Projects</h2>
+          <div className="overlay-section__header-sticky">
+            <h2 className="overlay-section__heading">Technical Projects</h2>
+          </div>
           <AnimatePresence mode="wait">
             {selectedProjectId === null ? (
               <motion.div
@@ -139,7 +144,10 @@ export default function ContentOverlay() {
                     key={project.id}
                     project={project}
                     index={i}
-                    onClick={() => setSelectedProjectId(project.id)}
+                    onClick={() => {
+                      setSelectedProjectId(project.id)
+                      scrollToOffset(4/9)
+                    }}
                   />
                 ))}
               </motion.div>
@@ -159,7 +167,10 @@ export default function ContentOverlay() {
                   >
                     <button
                       className="project-detail-back"
-                      onClick={() => setSelectedProjectId(null)}
+                      onClick={() => {
+                        setSelectedProjectId(null)
+                        scrollToOffset(4/9)
+                      }}
                     >
                       ← Back to Projects
                     </button>
@@ -230,7 +241,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 6: Publications ===== */}
       <div
         className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(0.625) }}
+        style={{ top: sectionTop(6/9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Publications</h2>
@@ -265,7 +276,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 7: Certificates ===== */}
       <div
         className="scroll-section scroll-section--right"
-        style={{ top: sectionTop(0.75) }}
+        style={{ top: sectionTop(7/9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Certifications</h2>
@@ -289,7 +300,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 8: Extracurriculars ===== */}
       <div
         className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(0.875) }}
+        style={{ top: sectionTop(8/9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Extracurricular Activities</h2>
@@ -307,7 +318,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 9: Contact ===== */}
       <div
         className="scroll-section scroll-section--center"
-        style={{ top: sectionTop(1.0) }}
+        style={{ top: sectionTop(9/9) }}
       >
         <div className="overlay-section overlay-contact">
           <h2 className="overlay-section__heading">Let's Connect</h2>

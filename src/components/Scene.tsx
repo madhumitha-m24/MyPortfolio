@@ -87,7 +87,7 @@ export default function Scene() {
       />
 
       {/* Scroll-driven content (9 pages of scroll distance) */}
-      <ScrollControls pages={9} damping={0.25}>
+      <ScrollControls pages={10} damping={0.25}>
         <ScrollCapture />
         <Suspense fallback={<SceneFallback />}>
           {/* 3D objects — pass degraded flag for adaptive quality */}

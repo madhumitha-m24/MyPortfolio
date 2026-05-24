@@ -193,13 +193,14 @@ export default function FloatingModel({ degraded = false }: FloatingModelProps) 
       if (offset >= 0.0 && offset < 1.0) {
         const keyframes = [
           { offset: 0.0, x: -shiftDist },
-          { offset: 0.125, x: shiftDist },
-          { offset: 0.25, x: -shiftDist },
-          { offset: 0.375, x: shiftDist },
-          { offset: 0.5, x: -shiftDist },
-          { offset: 0.625, x: shiftDist },
-          { offset: 0.75, x: -shiftDist },
-          { offset: 0.875, x: shiftDist },
+          { offset: 1 / 9, x: shiftDist },
+          { offset: 2 / 9, x: -shiftDist },
+          { offset: 3 / 9, x: shiftDist },
+          { offset: 4 / 9, x: -shiftDist },
+          { offset: 5 / 9, x: -shiftDist },
+          { offset: 6 / 9, x: shiftDist },
+          { offset: 7 / 9, x: -shiftDist },
+          { offset: 8 / 9, x: shiftDist },
           { offset: 1.0, x: -shiftDist }
         ]
         for (let i = 0; i < keyframes.length - 1; i++) {
