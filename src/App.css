@@ -20,6 +20,38 @@ html, body, #root {
   cursor: none; /* hide default cursor on desktop */
 }
 
+/* ---------- Custom Scrollbar ---------- */
+/* Firefox Scrollbar */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: rgba(124, 58, 237, 0.35) #090e1a;
+}
+
+/* Chrome, Edge, Safari Scrollbar */
+::-webkit-scrollbar {
+  width: 10px;
+  height: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090e1a;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(124, 58, 237, 0.25);
+  border: 2px solid #090e1a;
+  border-radius: 10px;
+  transition: background 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(124, 58, 237, 0.5);
+}
+
+::-webkit-scrollbar-thumb:active {
+  background: rgba(124, 58, 237, 0.7);
+}
+
 /* Restore default cursor on touch devices */
 @media (hover: none) and (pointer: coarse) {
   html, body, #root {
