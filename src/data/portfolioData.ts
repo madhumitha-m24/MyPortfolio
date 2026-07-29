@@ -99,7 +99,7 @@ export const education: Education[] = [
     degree: 'B.Tech in Electronics & Communication Engineering',
     institution: 'Amrita Vishwa Vidyapeetham, Bengaluru',
     period: '2023 - Present',
-    cgpa: '7.98 / 10',
+    cgpa: '8.07 / 10',
   },
   {
     id: 'pu',
