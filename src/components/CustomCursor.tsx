@@ -61,7 +61,7 @@ export default function CustomCursor() {
     const handleHoverDetection = (e: MouseEvent) => {
       const target = e.target as HTMLElement
       const isInteractive = target.closest(
-        '.project-card, .publication-card, .cert-card, .navbar__link, .overlay-hero__link-pill, .overlay-contact__link, .navbar__resume, a, button'
+        '.project-card, .publication-card, .cert-card, .navbar__link, .overlay-hero__link-pill, .overlay-contact__link, a, button'
       )
       setIsHovering(!!isInteractive)
     }

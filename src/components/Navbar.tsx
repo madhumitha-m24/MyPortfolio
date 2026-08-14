@@ -1,7 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
 import { motion } from 'framer-motion'
 import { scrollToOffset, getScrollElement } from '../utils/scrollStore'
-import { hero } from '../data/portfolioData'
 
 /**
  * Navbar — A minimal, fixed-position glassmorphic navigation bar.
@@ -34,42 +33,32 @@ export default function Navbar() {
 
   // Smart-hide: hide on scroll down, show on scroll up
   useEffect(() => {
-    let ticking = false
-
     const handleScroll = () => {
-      if (ticking) return
-      ticking = true
+      const scrollEl = getScrollElement()
+      if (scrollEl) {
+        const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight
+        const offset = maxScroll > 0 ? scrollEl.scrollTop / maxScroll : 0
 
-      requestAnimationFrame(() => {
-        const scrollEl = getScrollElement()
-
-        if (scrollEl) {
-          const maxScroll = scrollEl.scrollHeight - scrollEl.clientHeight
-          const offset = maxScroll > 0 ? scrollEl.scrollTop / maxScroll : 0
-
-          // Find closest section
-          let closest = 0
-          let minDist = Infinity
-          NAV_ITEMS.forEach((item, i) => {
-            const dist = Math.abs(offset - item.offset)
-            if (dist < minDist) {
-              minDist = dist
-              closest = i
-            }
-          })
-          setActiveIndex(closest)
-
-          // Smart hide (only if scrolled past hero)
-          if (offset > 0.05) {
-            setHidden(scrollEl.scrollTop > lastScrollY + 5)
-          } else {
-            setHidden(false)
+        // Find closest section
+        let closest = 0
+        let minDist = Infinity
+        NAV_ITEMS.forEach((item, i) => {
+          const dist = Math.abs(offset - item.offset)
+          if (dist < minDist) {
+            minDist = dist
+            closest = i
           }
-          setLastScrollY(scrollEl.scrollTop)
-        }
+        })
+        setActiveIndex(closest)
 
-        ticking = false
-      })
+        // Smart hide (only if scrolled past hero)
+        if (offset > 0.05) {
+          setHidden(scrollEl.scrollTop > lastScrollY + 5)
+        } else {
+          setHidden(false)
+        }
+        setLastScrollY(scrollEl.scrollTop)
+      }
     }
 
     // Poll scroll position (the drei scroll container is not window scroll)
@@ -123,16 +112,6 @@ export default function Navbar() {
         ))}
       </ul>
 
-      {/* Resume button */}
-      <a
-        className="navbar__resume"
-        href={hero.resumeLink}
-        target="_blank"
-        rel="noopener noreferrer"
-      >
-        Resume
-      </a>
-
       {/* Mobile hamburger */}
       <button
         className={`navbar__hamburger ${mobileOpen ? 'navbar__hamburger--open' : ''}`}
@@ -160,14 +139,6 @@ export default function Navbar() {
             {item.label}
           </button>
         ))}
-        <a
-          className="navbar__mobile-resume"
-          href={hero.resumeLink}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          View Resume →
-        </a>
       </motion.div>
     </motion.nav>
   )
