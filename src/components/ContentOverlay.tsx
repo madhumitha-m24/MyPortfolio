@@ -406,6 +406,14 @@ export default function ContentOverlay() {
                 <span>{link.label}</span>
               </a>
             ))}
+            <a
+              href={hero.resumeLink}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="overlay-contact__link overlay-contact__link--resume"
+            >
+              <span>View Resume</span>
+            </a>
           </div>
           <p className="overlay-contact__footer">© 2026 {hero.name}</p>
         </div>
