@@ -1,16 +1,16 @@
 import { motion } from 'framer-motion'
-import type { Project } from '../data/portfolioData'
+import type { Project, Internship } from '../data/portfolioData'
 import { domainColors } from '../data/portfolioData'
 
 /**
- * ProjectCard — A compact glassmorphic card for individual projects.
+ * ProjectCard — A compact glassmorphic card for individual projects and internships.
  *
- * All content elements (tech dot, title, badges) are flat children
+ * All content elements (tech dot, title, company, badges) are flat children
  * of the card container to facilitate perfect centering in CSS.
  */
 
 interface ProjectCardProps {
-  project: Project
+  project: Project | Internship
   index: number
   onClick: () => void
 }
@@ -33,8 +33,13 @@ export default function ProjectCard({ project, index, onClick }: ProjectCardProp
     >
       <div className="project-card__tech-dot" />
       <h3 className="project-card__title">{project.title}</h3>
+      {project.company && (
+        <p className="project-card__company">
+          {('role' in project && project.role) ? `${project.role} • ${project.company}` : project.company}
+        </p>
+      )}
       <div className="project-card__badges">
-        <span className="project-card__year">{project.year}</span>
+        <span className="project-card__year">{project.period ?? project.year}</span>
         <span
           className="project-card__domain"
           style={{ borderColor: accent, color: accent }}

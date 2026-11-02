@@ -791,6 +791,14 @@ html, body, #root {
   margin-bottom: 0.45rem;
 }
 
+.project-card__company {
+  font-size: 0.72rem;
+  color: #a78bfa;
+  margin-top: -0.2rem;
+  margin-bottom: 0.45rem;
+  font-weight: 500;
+}
+
 .project-card__badges {
   display: flex;
   gap: 0.4rem;
@@ -1272,6 +1280,13 @@ html, body, #root {
   color: #fff;
   line-height: 1.35;
   margin-bottom: 0.4rem;
+}
+
+.project-detail-company {
+  font-size: 0.82rem;
+  color: #a78bfa;
+  margin-bottom: 0.45rem;
+  font-weight: 500;
 }
 
 .project-detail-desc {

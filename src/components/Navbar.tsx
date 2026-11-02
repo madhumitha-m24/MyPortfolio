@@ -15,13 +15,14 @@ import { scrollToOffset, getScrollElement } from '../utils/scrollStore'
 
 const NAV_ITEMS = [
   { label: 'Home', offset: 0 },
-  { label: 'Summary', offset: 1 / 9 },
-  { label: 'Education', offset: 2 / 9 },
-  { label: 'Skills', offset: 3 / 9 },
-  { label: 'Projects', offset: 4 / 9 },
-  { label: 'Publications', offset: 6 / 9 },
-  { label: 'Certificates', offset: 7 / 9 },
-  { label: 'Activities', offset: 8 / 9 },
+  { label: 'Summary', offset: 0.1 },
+  { label: 'Education', offset: 0.2 },
+  { label: 'Skills', offset: 0.3 },
+  { label: 'Internship', offset: 0.4 },
+  { label: 'Projects', offset: 0.5 },
+  { label: 'Publications', offset: 0.7 },
+  { label: 'Certificates', offset: 0.8 },
+  { label: 'Activities', offset: 0.9 },
   { label: 'Contact', offset: 1.0 },
 ]
 

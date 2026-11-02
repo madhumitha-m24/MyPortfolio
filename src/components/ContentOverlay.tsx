@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion'
 import {
   hero,
   projects,
+  internships,
   publications,
   certificates,
   socialLinks,
@@ -20,11 +21,11 @@ import { scrollToOffset } from '../utils/scrollStore'
  * Uses pure CSS positioning within the scroll container. Sections are placed
  * at absolute positions matching the scroll offsets defined in the Navbar.
  *
- * With pages=10, the scroll travel is (pages-1) = 9 viewport heights.
- * A section at offset X is placed at top = X * 9 * 100vh.
+ * With pages=11, the scroll travel is (pages-1) = 10 viewport heights.
+ * A section at offset X is placed at top = X * 10 * 100vh.
  */
 
-const PAGES = 10
+const PAGES = 11
 
 /** Convert a normalized offset (0–1) to a CSS top value in vh */
 function sectionTop(offset: number): string {
@@ -33,6 +34,7 @@ function sectionTop(offset: number): string {
 
 export default function ContentOverlay() {
   const [selectedProjectId, setSelectedProjectId] = useState<string | null>(null)
+  const [selectedInternshipId, setSelectedInternshipId] = useState<string | null>(null)
 
   return (
     <>
@@ -52,7 +54,7 @@ export default function ContentOverlay() {
               <a
                 key={link.label}
                 href={link.url}
-                target={link.url.startsWith('mailto') ? undefined : '_blank'}
+                target={link.url.startsWith('mailto') || link.url.startsWith('tel') ? undefined : '_blank'}
                 rel="noopener noreferrer"
                 className="overlay-hero__link-pill"
               >
@@ -66,7 +68,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 2: Professional Summary ===== */}
       <div
         className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(1/9) }}
+        style={{ top: sectionTop(0.1) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Professional Summary</h2>
@@ -77,7 +79,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 3: Education ===== */}
       <div
         className="scroll-section scroll-section--right"
-        style={{ top: sectionTop(2/9) }}
+        style={{ top: sectionTop(0.2) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Education</h2>
@@ -99,7 +101,7 @@ export default function ContentOverlay() {
       {/* ===== SECTION 4: Technical Skills ===== */}
       <div
         className="scroll-section scroll-section--left scroll-section--tall"
-        style={{ top: sectionTop(3/9) }}
+        style={{ top: sectionTop(0.3) }}
       >
         <div className="overlay-section">
           <div className="overlay-section__header-sticky">
@@ -120,10 +122,133 @@ export default function ContentOverlay() {
         </div>
       </div>
 
-      {/* ===== SECTION 5: Projects ===== */}
+      {/* ===== SECTION 5: Internship ===== */}
       <div
         className="scroll-section scroll-section--right scroll-section--tall"
-        style={{ top: sectionTop(4/9) }}
+        style={{ top: sectionTop(0.4) }}
+      >
+        <div className="overlay-section">
+          <div className="overlay-section__header-sticky">
+            <h2 className="overlay-section__heading">Internship</h2>
+          </div>
+          <AnimatePresence mode="wait">
+            {selectedInternshipId === null ? (
+              <motion.div
+                key="internship-grid"
+                initial={{ opacity: 0, y: 10 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -10 }}
+                transition={{ duration: 0.2 }}
+                className="overlay-projects-grid"
+              >
+                {internships.map((internship, i) => (
+                  <ProjectCard
+                    key={internship.id}
+                    project={internship}
+                    index={i}
+                    onClick={() => {
+                      setSelectedInternshipId(internship.id)
+                      scrollToOffset(0.4)
+                    }}
+                  />
+                ))}
+              </motion.div>
+            ) : (
+              (() => {
+                const selectedInternship = internships.find((item) => item.id === selectedInternshipId)
+                if (!selectedInternship) return null
+                const accent = domainColors[selectedInternship.domain] ?? '#7c3aed'
+                return (
+                  <motion.div
+                    key="internship-detail"
+                    initial={{ opacity: 0, y: 10 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    exit={{ opacity: 0, y: -10 }}
+                    transition={{ duration: 0.2 }}
+                    className="project-detail-view"
+                  >
+                    <button
+                      className="project-detail-back"
+                      onClick={() => {
+                        setSelectedInternshipId(null)
+                        scrollToOffset(0.4)
+                      }}
+                    >
+                      ← Back to Internships
+                    </button>
+                    <div
+                      className="project-detail-card"
+                      style={{ '--card-accent': accent } as React.CSSProperties}
+                    >
+                      <div className="project-detail-header">
+                        <div
+                          className="project-card__tech-dot"
+                          style={{ backgroundColor: accent } as React.CSSProperties}
+                        />
+                        <div className="project-detail-meta">
+                          <h3 className="project-detail-title">{selectedInternship.title}</h3>
+                          {selectedInternship.company && (
+                            <p className="project-detail-company">
+                              {selectedInternship.role ? `${selectedInternship.role} • ${selectedInternship.company}` : selectedInternship.company}
+                            </p>
+                          )}
+                          <div className="project-card__badges">
+                            <span className="project-card__year">{selectedInternship.period ?? selectedInternship.year}</span>
+                            <span
+                              className="project-card__domain"
+                              style={{ borderColor: accent, color: accent }}
+                            >
+                              {selectedInternship.domain}
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+
+                      <ul className="project-detail-desc">
+                        {selectedInternship.description.map((line, i) => (
+                          <li key={i}>{line}</li>
+                        ))}
+                      </ul>
+
+                      <div className="project-detail-tags">
+                        {selectedInternship.techStack.map((tech) => (
+                          <span
+                            key={tech}
+                            className="project-card__tag"
+                            style={{
+                              borderColor: `${accent}40`,
+                              background: `${accent}15`,
+                              color: accent,
+                            }}
+                          >
+                            {tech}
+                          </span>
+                        ))}
+                      </div>
+
+                      {selectedInternship.githubLink && (
+                        <a
+                          href={selectedInternship.githubLink}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="project-detail-link"
+                        >
+                          View Work / Repo →
+                        </a>
+                      )}
+                    </div>
+                  </motion.div>
+                )
+              })()
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+
+      {/* ===== SECTION 6: Projects ===== */}
+      <div
+        className="scroll-section scroll-section--left scroll-section--tall"
+        style={{ top: sectionTop(0.5) }}
       >
         <div className="overlay-section">
           <div className="overlay-section__header-sticky">
@@ -146,7 +271,7 @@ export default function ContentOverlay() {
                     index={i}
                     onClick={() => {
                       setSelectedProjectId(project.id)
-                      scrollToOffset(4/9)
+                      scrollToOffset(0.5)
                     }}
                   />
                 ))}
@@ -169,7 +294,7 @@ export default function ContentOverlay() {
                       className="project-detail-back"
                       onClick={() => {
                         setSelectedProjectId(null)
-                        scrollToOffset(4/9)
+                        scrollToOffset(0.5)
                       }}
                     >
                       ← Back to Projects
@@ -185,8 +310,11 @@ export default function ContentOverlay() {
                         />
                         <div className="project-detail-meta">
                           <h3 className="project-detail-title">{selectedProject.title}</h3>
+                          {selectedProject.company && (
+                            <p className="project-detail-company">{selectedProject.company}</p>
+                          )}
                           <div className="project-card__badges">
-                            <span className="project-card__year">{selectedProject.year}</span>
+                            <span className="project-card__year">{selectedProject.period ?? selectedProject.year}</span>
                             <span
                               className="project-card__domain"
                               style={{ borderColor: accent, color: accent }}
@@ -238,10 +366,10 @@ export default function ContentOverlay() {
         </div>
       </div>
 
-      {/* ===== SECTION 6: Publications ===== */}
+      {/* ===== SECTION 7: Publications ===== */}
       <div
-        className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(6/9) }}
+        className="scroll-section scroll-section--right"
+        style={{ top: sectionTop(0.7) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Publications</h2>
@@ -250,7 +378,12 @@ export default function ContentOverlay() {
               <div key={pub.id} className="publication-card">
                 <div className="publication-card__header">
                   <h3 className="publication-card__title">{pub.title}</h3>
-                  <span className="publication-card__conf">{pub.conference}</span>
+                  <div style={{ display: 'flex', gap: '0.4rem', alignItems: 'center', flexWrap: 'wrap' }}>
+                    <span className="publication-card__conf">{pub.conference}</span>
+                    {pub.period && (
+                      <span className="project-card__year">{pub.period}</span>
+                    )}
+                  </div>
                 </div>
                 <ul className="publication-card__desc">
                   {pub.description.map((line, i) => (
@@ -273,10 +406,10 @@ export default function ContentOverlay() {
         </div>
       </div>
 
-      {/* ===== SECTION 7: Certificates ===== */}
+      {/* ===== SECTION 8: Certificates ===== */}
       <div
-        className="scroll-section scroll-section--right"
-        style={{ top: sectionTop(7/9) }}
+        className="scroll-section scroll-section--left"
+        style={{ top: sectionTop(0.8) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Certifications</h2>
@@ -287,7 +420,7 @@ export default function ContentOverlay() {
                   <h3 className="cert-card__title">{cert.title}</h3>
                   <div className="cert-card__meta">
                     <span className="cert-card__org">{cert.organization}</span>
-                    <span className="cert-card__year">{cert.year}</span>
+                    <span className="cert-card__year">{cert.period ?? cert.year}</span>
                   </div>
                 </div>
                 <p className="cert-card__desc">{cert.description}</p>
@@ -297,10 +430,10 @@ export default function ContentOverlay() {
         </div>
       </div>
 
-      {/* ===== SECTION 8: Extracurriculars ===== */}
+      {/* ===== SECTION 9: Extracurriculars ===== */}
       <div
-        className="scroll-section scroll-section--left"
-        style={{ top: sectionTop(8/9) }}
+        className="scroll-section scroll-section--right"
+        style={{ top: sectionTop(0.9) }}
       >
         <div className="overlay-section">
           <h2 className="overlay-section__heading">Extracurricular Activities</h2>
@@ -314,11 +447,10 @@ export default function ContentOverlay() {
         </div>
       </div>
 
-
-      {/* ===== SECTION 9: Contact ===== */}
+      {/* ===== SECTION 10: Contact ===== */}
       <div
         className="scroll-section scroll-section--center"
-        style={{ top: sectionTop(9/9) }}
+        style={{ top: sectionTop(1.0) }}
       >
         <div className="overlay-section overlay-contact">
           <h2 className="overlay-section__heading">Let's Connect</h2>
@@ -399,7 +531,7 @@ export default function ContentOverlay() {
               <a
                 key={link.label}
                 href={link.url}
-                target={link.url.startsWith('mailto') ? undefined : '_blank'}
+                target={link.url.startsWith('mailto') || link.url.startsWith('tel') ? undefined : '_blank'}
                 rel="noopener noreferrer"
                 className="overlay-contact__link"
               >

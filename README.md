@@ -168,6 +168,7 @@ To update personal information, edit the export objects:
 - `socialLinks`: Array of target platforms and profiles.
 - `education`: Sequential database of institutional dates and grade details.
 - `technicalSkills`: Organized array structure dividing capabilities into categorized tag groups.
+- `internships`: Practical industry and research experience structured identically to project records.
 - `projects`: Dynamic list containing descriptive points, tag categories, domains, and repository paths.
 - `publications`: Published IEEE/conference papers complete with details and external links.
 - `certificates`: Technical certifications accompanied by details.

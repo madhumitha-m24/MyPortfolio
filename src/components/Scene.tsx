@@ -45,8 +45,8 @@ export default function Scene() {
         onFallback={() => setDegraded(true)}
       />
 
-      {/* Scroll-driven content (9 pages of scroll distance) */}
-      <ScrollControls pages={10} damping={0.25}>
+      {/* Scroll-driven content (10 pages of scroll distance) */}
+      <ScrollControls pages={11} damping={0.25}>
         <ScrollCapture />
         {/* HTML content — rendered as native DOM inside the scroll container */}
         <Scroll html style={{ width: '100%' }}>
